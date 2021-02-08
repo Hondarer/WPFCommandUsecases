@@ -2,6 +2,14 @@
 {
     public static class ArrayParameterHelper
     {
+        public static bool TryGetParameters<T>(object[] parameter, out T parameter1)
+        {
+            bool result= TryGetParameters(parameter, out T _parameter1);
+            parameter1 = _parameter1;
+
+            return result;
+        }
+
         public static bool TryGetParameters<T>(object parameter, out T parameter1)
         {
             if (!(parameter is object[]))
