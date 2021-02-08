@@ -4,12 +4,12 @@
     {
         public override bool CanExecute(object parameter)
         {
-            if (!(parameter is int))
+            if (ArrayParameterHelper.TryGetParameters(parameter, out int int1) == false)
             {
                 return false;
             }
 
-            if ((int)parameter > 5)
+            if (int1 > 5)
             {
                 return true;
             }

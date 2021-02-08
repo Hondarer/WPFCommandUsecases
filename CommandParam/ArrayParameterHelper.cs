@@ -12,6 +12,13 @@
 
         public static bool TryGetParameters<T>(object parameter, out T parameter1)
         {
+            // パラメーターが 1 つの場合の特殊処理
+            if (parameter is T)
+            {
+                parameter1 = (T)parameter;
+                return true;
+            }
+
             if (!(parameter is object[]))
             {
                 parameter1 = default;
