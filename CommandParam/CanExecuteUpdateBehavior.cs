@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interactivity;
 
-
 namespace CommandParam
 {
     // Button 等の CommandPatameter プロパティは依存関係プロパティであるが、
