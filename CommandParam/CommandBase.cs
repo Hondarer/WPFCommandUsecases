@@ -12,6 +12,21 @@ namespace CommandParam
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        public CommandBase()
+        {
+            CommandManager.RequerySuggested += RequerySuggested;
+        }
+
+        ~CommandBase()
+        {
+            CommandManager.RequerySuggested -= RequerySuggested;
+        }
+
+        private void RequerySuggested(object sender, EventArgs e)
+        {
+            RaiseCanExecuteChanged();
+        }
+
         public abstract bool CanExecute(object parameter);
 
         public abstract void Execute(object parameter);

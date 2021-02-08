@@ -22,13 +22,17 @@ namespace CommandParam
                 if (int1 != value)
                 {
                     int1 = value;
-                    Application.Current.Dispatcher.BeginInvoke((Action)(() =>
+                    Application application = Application.Current;
+                    if (application != null)
                     {
-                        if (PropertyChanged != null)
+                        application.Dispatcher.BeginInvoke((Action)(() =>
                         {
-                            PropertyChanged(this, new PropertyChangedEventArgs("Int1"));
-                        }
-                    }));
+                            if (PropertyChanged != null)
+                            {
+                                PropertyChanged(this, new PropertyChangedEventArgs("Int1"));
+                            }
+                        }));
+                    }
                 }
             }
         }
