@@ -7,17 +7,33 @@ namespace CommandParam
     {
         private static readonly PropertyInfo InheritanceContextProperty = typeof(DependencyObject).GetProperty("InheritanceContext", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        protected static void OnNeedRequerySuggest(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        protected static void RequerySuggest(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            if ((obj != null) && (InheritanceContextProperty.GetValue(obj) is DependencyObject parent))
+            if (obj is CommandParameterBase<T>)
             {
-                PropertyInfo commandProperty = parent.GetType().GetProperty("Command", BindingFlags.Public | BindingFlags.Instance);
+                CommandParameterBase<T> commandParameterBase = obj as CommandParameterBase<T>;
+                commandParameterBase.OnRequerySuggest();
 
-                if ((commandProperty != null) && (commandProperty.GetValue(parent) is IRaiseCanExecuteChanged command))
+                if (InheritanceContextProperty.GetValue(obj) is DependencyObject parent)
                 {
-                    command.RaiseCanExecuteChanged();
+                    PropertyInfo commandProperty = parent.GetType().GetProperty("Command", BindingFlags.Public | BindingFlags.Instance);
+
+                    if ((commandProperty != null) && (commandProperty.GetValue(parent) is IRaiseCanExecuteChanged command))
+                    {
+                        command.RaiseCanExecuteChanged();
+                    }
                 }
+
+                commandParameterBase.RequerySuggested();
             }
+        }
+
+        protected virtual void OnRequerySuggest()
+        {
+        }
+
+        protected virtual void RequerySuggested()
+        {
         }
 
         protected override Freezable CreateInstanceCore()
