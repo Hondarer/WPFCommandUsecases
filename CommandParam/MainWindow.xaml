@@ -12,6 +12,7 @@
 
         <local:Command1 x:Key="Command1" />
         <local:Command2 x:Key="Command2" />
+        <local:Command3 x:Key="Command3" />
         
         <local:ValuesToArrayConverter x:Key="ValuesToArrayConverter" />
 
@@ -49,12 +50,18 @@
                 </i:Interaction.Behaviors>
             </Button>
 
-            <Button Content="Command3" Command="{StaticResource Command1}" CommandParameter="{Binding Int1}" Style="{StaticResource CanExecuteUpdateButtonStyle}" />
-            <Button Content="Command4" Command="{StaticResource Command2}" Style="{StaticResource CanExecuteUpdateButtonStyle}">
+            <Button Content="Command1-2" Command="{StaticResource Command1}" CommandParameter="{Binding Int1}" Style="{StaticResource CanExecuteUpdateButtonStyle}" />
+            <Button Content="Command2-2" Command="{StaticResource Command2}" Style="{StaticResource CanExecuteUpdateButtonStyle}">
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource ValuesToArrayConverter}">
                         <Binding Path="Int1" />
                     </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+
+            <Button Content="Command3" Command="{StaticResource Command3}">
+                <Button.CommandParameter>
+                    <local:Command3Parameter Int1="{Binding Int1}" />
                 </Button.CommandParameter>
             </Button>
 
