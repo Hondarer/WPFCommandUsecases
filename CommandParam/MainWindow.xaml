@@ -72,7 +72,13 @@
                 </Button.CommandParameter>
             </Button>
 
-            <Button Content="Command4-2" Command="{StaticResource Command4}">
+            <Button Content="Command4-2" Command="{StaticResource Command4}" Style="{StaticResource CanExecuteUpdateButtonStyle}">
+                <Button.CommandParameter>
+                    <local:CommandParameter Value="{Binding Int1}" />
+                </Button.CommandParameter>
+            </Button>
+
+            <Button Content="Command4-3" Command="{StaticResource Command4}">
                 <Button.CommandParameter>
                     <local:CommandParameter>
                         <local:CommandParameter.Value>

@@ -1,24 +1,20 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Windows.Controls.Primitives;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
 namespace CommandParam
 {
-    // Button 等の CommandPatameter プロパティは依存関係プロパティであるが、
-    // ソースに追従してしてターゲットが変化しせたとき、関連する Command の CanExecute を再評価しないため、
-    // 条件が変化しても見た目の活性非活性が追従しない現象が発生する場合がある。
-    //
-    // このビヘイビアは、CommandParameter の変化をきっかけに、Command の CanExecute を
-    // 要求するものである。
-
-    public class CanExecuteUpdateBehavior : Behavior<ButtonBase>
+    public class CanExecuteUpdateBehavior : Behavior<DependencyObject>
     {
         protected override void OnAttached()
         {
-            DependencyPropertyDescriptor descripter = DependencyPropertyDescriptor.FromProperty(ButtonBase.CommandParameterProperty, typeof(ButtonBase));
-            descripter.AddValueChanged(AssociatedObject, OnCommandParameterChanged);
+            if (AssociatedObject is ICommandSource commandSource)
+            {
+                DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromName(nameof(ICommandSource.CommandParameter), commandSource.GetType(), commandSource.GetType(), true);
+                descriptor.AddValueChanged(AssociatedObject, OnCommandParameterChanged);
+            }
 
             base.OnAttached();
         }
@@ -27,13 +23,20 @@ namespace CommandParam
         {
             base.OnDetaching();
 
-            DependencyPropertyDescriptor descripter = DependencyPropertyDescriptor.FromProperty(ButtonBase.CommandParameterProperty, typeof(ButtonBase));
-            descripter.RemoveValueChanged(AssociatedObject, OnCommandParameterChanged);
+            if (AssociatedObject is ICommandSource commandSource)
+            {
+                DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromName(nameof(ICommandSource.CommandParameter), commandSource.GetType(), commandSource.GetType(), true);
+                descriptor.RemoveValueChanged(AssociatedObject, OnCommandParameterChanged);
+            }
         }
 
         private void OnCommandParameterChanged(object sender, EventArgs e)
         {
-            if ((sender as ICommandSource).Command is IRaiseCanExecuteChanged command)
+            object commandParameter = (sender as ICommandSource).CommandParameter;
+
+            if ((commandParameter != null) &&
+                (!commandParameter.GetType().IsSubclassOfRawGeneric(typeof(CommandParameterBase<>))) &&
+                ((sender as ICommandSource).Command is IRaiseCanExecuteChanged command))
             {
                 command.RaiseCanExecuteChanged();
             }

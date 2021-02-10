@@ -8,8 +8,6 @@ namespace CommandParam
     {
         private static readonly PropertyInfo InheritanceContextProperty = typeof(DependencyObject).GetProperty("InheritanceContext", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        private static readonly PropertyInfo CommandProperty = typeof(ICommandSource).GetProperty("Command", BindingFlags.Public | BindingFlags.Instance);
-
         protected static void RequerySuggest(DependencyObject obj, DependencyPropertyChangedEventArgs _)
         {
             if (obj is CommandParameterBase<T>)
@@ -17,9 +15,9 @@ namespace CommandParam
                 CommandParameterBase<T> commandParameterBase = obj as CommandParameterBase<T>;
                 commandParameterBase.OnRequerySuggest();
 
-                if (InheritanceContextProperty.GetValue(obj) is DependencyObject parent)
+                if (InheritanceContextProperty.GetValue(obj) is ICommandSource parent)
                 {
-                    if (CommandProperty.GetValue(parent) is IRaiseCanExecuteChanged command)
+                    if (parent.Command is IRaiseCanExecuteChanged command)
                     {
                         command.RaiseCanExecuteChanged();
                     }
