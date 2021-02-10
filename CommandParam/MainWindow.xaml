@@ -26,9 +26,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
     </Window.Resources>
-    
+
     <Grid>
         <StackPanel>
 
@@ -72,7 +72,19 @@
                 </Button.CommandParameter>
             </Button>
 
+            <Button Content="Command4-2" Command="{StaticResource Command4}">
+                <Button.CommandParameter>
+                    <local:CommandParameter>
+                        <local:CommandParameter.Value>
+                            <MultiBinding Converter="{StaticResource ValuesToArrayConverter}">
+                                <Binding Path="Int1" />
+                            </MultiBinding>
+                        </local:CommandParameter.Value>
+                    </local:CommandParameter>
+                </Button.CommandParameter>
+            </Button>
+
         </StackPanel>
     </Grid>
-    
+
 </Window>
