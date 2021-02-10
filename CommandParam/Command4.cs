@@ -1,6 +1,6 @@
 ﻿namespace CommandParam
 {
-    public class Command2 : CommandBase
+    public class Command4 : CommandBase
     {
         public override bool CanExecute(object parameter)
         {

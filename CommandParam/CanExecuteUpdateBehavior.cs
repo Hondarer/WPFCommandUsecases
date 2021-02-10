@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Interactivity;
 
 namespace CommandParam
@@ -32,7 +33,7 @@ namespace CommandParam
 
         private void OnCommandParameterChanged(object sender, EventArgs e)
         {
-            if ((sender as ButtonBase).Command is IRaiseCanExecuteChanged command)
+            if ((sender as ICommandSource).Command is IRaiseCanExecuteChanged command)
             {
                 command.RaiseCanExecuteChanged();
             }

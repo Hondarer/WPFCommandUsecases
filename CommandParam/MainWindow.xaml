@@ -13,7 +13,8 @@
         <local:Command1 x:Key="Command1" />
         <local:Command2 x:Key="Command2" />
         <local:Command3 x:Key="Command3" />
-        
+        <local:Command4 x:Key="Command4" />
+
         <local:ValuesToArrayConverter x:Key="ValuesToArrayConverter" />
 
         <Style x:Key="CanExecuteUpdateButtonStyle" TargetType="{x:Type Button}">
@@ -30,15 +31,15 @@
     
     <Grid>
         <StackPanel>
-            
+
             <TextBlock Text="{Binding Int1}" FontSize="24" />
-            
+
             <Button Content="Command1" Command="{StaticResource Command1}" CommandParameter="{Binding Int1}" >
                 <i:Interaction.Behaviors>
                     <local:CanExecuteUpdateBehavior />
                 </i:Interaction.Behaviors>
             </Button>
-            
+
             <Button Content="Command2" Command="{StaticResource Command2}" >
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource ValuesToArrayConverter}">
@@ -62,6 +63,12 @@
             <Button Content="Command3" Command="{StaticResource Command3}">
                 <Button.CommandParameter>
                     <local:Command3Parameter Int1="{Binding Int1}" />
+                </Button.CommandParameter>
+            </Button>
+
+            <Button Content="Command4" Command="{StaticResource Command4}">
+                <Button.CommandParameter>
+                    <local:CommandParameter Value="{Binding Int1}" />
                 </Button.CommandParameter>
             </Button>
 

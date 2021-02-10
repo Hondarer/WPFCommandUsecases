@@ -4,7 +4,7 @@
     {
         public override bool CanExecute(object parameter)
         {
-            if (ArrayParameterHelper.TryGetParameters(parameter, out int int1) == false)
+            if (ParameterHelper.TryGetParameters(parameter, out int int1) == false)
             {
                 return false;
             }

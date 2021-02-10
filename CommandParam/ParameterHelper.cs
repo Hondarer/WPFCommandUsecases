@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace CommandParam
 {
-    public static class ArrayParameterHelper
+    public static class ParameterHelper
     {
         private const int INDEX_O = 11;
         private const int INDEX_P = 10;
@@ -27,6 +27,11 @@ namespace CommandParam
 
         public static bool TryGetParameters<Z>(object parameter, out Z parameter1)
         {
+            if (parameter is CommandParameter)
+            {
+                parameter = ((CommandParameter)parameter).Value;
+            }
+
             // パラメーターが 1 つの場合の特殊処理
             if (parameter is Z)
             {
@@ -75,6 +80,11 @@ namespace CommandParam
 
         public static bool TryGetParameters<Z, Y>(object parameter, out Z parameter1, out Y parameter2)
         {
+            if (parameter is CommandParameter)
+            {
+                parameter = ((CommandParameter)parameter).Value;
+            }
+
             if (!(parameter is object[]))
             {
                 parameter1 = default;
@@ -129,6 +139,11 @@ namespace CommandParam
 
         public static bool TryGetParameters<Z, Y, X>(object parameter, out Z parameter1, out Y parameter2, out X parameter3)
         {
+            if (parameter is CommandParameter)
+            {
+                parameter = ((CommandParameter)parameter).Value;
+            }
+
             if (!(parameter is object[]))
             {
                 parameter1 = default;
@@ -197,6 +212,11 @@ namespace CommandParam
 
         public static bool TryGetParameters<Z, Y, X, W>(object parameter, out Z parameter1, out Y parameter2, out X parameter3, out W parameter4)
         {
+            if (parameter is CommandParameter)
+            {
+                parameter = ((CommandParameter)parameter).Value;
+            }
+
             if (!(parameter is object[]))
             {
                 parameter1 = default;
@@ -280,6 +300,11 @@ namespace CommandParam
 
         public static bool TryGetParameters<Z, Y, X, W, V>(object parameter, out Z parameter1, out Y parameter2, out X parameter3, out W parameter4, out V parameter5)
         {
+            if (parameter is CommandParameter)
+            {
+                parameter = ((CommandParameter)parameter).Value;
+            }
+
             if (!(parameter is object[]))
             {
                 parameter1 = default;
@@ -380,6 +405,11 @@ namespace CommandParam
 
         public static bool TryGetParameters<Z, Y, X, W, V, U>(object parameter, out Z parameter1, out Y parameter2, out X parameter3, out W parameter4, out V parameter5, out U parameter6)
         {
+            if (parameter is CommandParameter)
+            {
+                parameter = ((CommandParameter)parameter).Value;
+            }
+
             if (!(parameter is object[]))
             {
                 parameter1 = default;

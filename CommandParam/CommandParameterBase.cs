@@ -1,13 +1,16 @@
 ﻿using System.Reflection;
 using System.Windows;
+using System.Windows.Input;
 
 namespace CommandParam
 {
-    public class CommandParameterBase<T> : Freezable where T : new()
+    public abstract class CommandParameterBase<T> : Freezable where T : new()
     {
         private static readonly PropertyInfo InheritanceContextProperty = typeof(DependencyObject).GetProperty("InheritanceContext", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        protected static void RequerySuggest(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        private static readonly PropertyInfo CommandProperty = typeof(ICommandSource).GetProperty("Command", BindingFlags.Public | BindingFlags.Instance);
+
+        protected static void RequerySuggest(DependencyObject obj, DependencyPropertyChangedEventArgs _)
         {
             if (obj is CommandParameterBase<T>)
             {
@@ -16,9 +19,7 @@ namespace CommandParam
 
                 if (InheritanceContextProperty.GetValue(obj) is DependencyObject parent)
                 {
-                    PropertyInfo commandProperty = parent.GetType().GetProperty("Command", BindingFlags.Public | BindingFlags.Instance);
-
-                    if ((commandProperty != null) && (commandProperty.GetValue(parent) is IRaiseCanExecuteChanged command))
+                    if (CommandProperty.GetValue(parent) is IRaiseCanExecuteChanged command)
                     {
                         command.RaiseCanExecuteChanged();
                     }
