@@ -24,7 +24,7 @@
             <Setter Property="local:StyleBehaviorCollection.Behaviors">
                 <Setter.Value>
                     <local:StyleBehaviorCollection>
-                        <local:CanExecuteUpdateBehavior />
+                        <local:CanExecuteRequeryBehavior />
                     </local:StyleBehaviorCollection>
                 </Setter.Value>
             </Setter>
@@ -52,7 +52,7 @@
             <!-- CommandParameter の変化で CanExecure を再評価するビヘイビア -->
             <Button Content="Command1" Command="{StaticResource Command1}" CommandParameter="{Binding Int1}" >
                 <i:Interaction.Behaviors>
-                    <local:CanExecuteUpdateBehavior />
+                    <local:CanExecuteRequeryBehavior />
                 </i:Interaction.Behaviors>
             </Button>
 
@@ -64,7 +64,7 @@
                     </MultiBinding>
                 </Button.CommandParameter>
                 <i:Interaction.Behaviors>
-                    <local:CanExecuteUpdateBehavior />
+                    <local:CanExecuteRequeryBehavior />
                 </i:Interaction.Behaviors>
             </Button>
 

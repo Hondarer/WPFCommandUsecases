@@ -3,11 +3,38 @@ using System.Windows.Input;
 
 namespace CommandParam
 {
-    public abstract class CommandBase : ICommand, IRaiseCanExecuteChanged
+    public abstract class CommandBase : ICommand, IRaiseCanExecuteChanged, IDisposable
     {
+        #region IDisposable
+
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                CommandManager.RequerySuggested -= RequerySuggested;
+
+                disposedValue = true;
+            }
+        }
+
+        ~CommandBase()
+        {
+            Dispose(disposing: false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
+
         public event EventHandler CanExecuteChanged;
 
-        public void RaiseCanExecuteChanged()
+        public virtual void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
@@ -17,12 +44,7 @@ namespace CommandParam
             CommandManager.RequerySuggested += RequerySuggested;
         }
 
-        ~CommandBase()
-        {
-            CommandManager.RequerySuggested -= RequerySuggested;
-        }
-
-        private void RequerySuggested(object sender, EventArgs e)
+        protected virtual void RequerySuggested(object sender, EventArgs e)
         {
             RaiseCanExecuteChanged();
         }

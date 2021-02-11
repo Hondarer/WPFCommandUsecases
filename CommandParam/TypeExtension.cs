@@ -4,21 +4,29 @@ namespace CommandParam
 {
     public static class TypeExtension
     {
-        public static bool IsSubclassOfRawGeneric(this Type toCheck, Type generic)
+        public static bool IsSubclassOfGeneric(this Type current, Type compare)
         {
-            // TODO: 可読性が悪いのでリファクタリング要
-
-            while (toCheck != null && toCheck != typeof(object))
+            while ((current != null) && (current != typeof(object)))
             {
-                var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
-                if (generic == cur)
+                Type checkType;
+                if (current.IsGenericType == true)
+                {
+                    checkType = current.GetGenericTypeDefinition();
+                }
+                else
+                {
+                    checkType = current;
+                }
+
+                if (compare == checkType)
                 {
                     return true;
                 }
-                toCheck = toCheck.BaseType;
+
+                current = current.BaseType;
             }
+
             return false;
         }
-
     }
 }

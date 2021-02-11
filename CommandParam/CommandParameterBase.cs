@@ -6,7 +6,8 @@ namespace CommandParam
 {
     public abstract class CommandParameterBase<T> : Freezable where T : new()
     {
-        private static readonly PropertyInfo InheritanceContextProperty = typeof(DependencyObject).GetProperty("InheritanceContext", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly PropertyInfo InheritanceContextProperty = 
+            typeof(DependencyObject).GetProperty("InheritanceContext", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public UIElement UIElement
         {
@@ -34,14 +35,19 @@ namespace CommandParam
             }
         }
 
-        protected static void RequerySuggest(DependencyObject obj, DependencyPropertyChangedEventArgs _)
+        protected static void RequerySuggest(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if (obj is CommandParameterBase<T>)
+            if (e.OldValue == e.NewValue)
             {
-                CommandParameterBase<T> commandParameterBase = obj as CommandParameterBase<T>;
+                return;
+            }
+
+            if (sender is CommandParameterBase<T>)
+            {
+                CommandParameterBase<T> commandParameterBase = sender as CommandParameterBase<T>;
                 commandParameterBase.OnRequerySuggest();
 
-                if (InheritanceContextProperty.GetValue(obj) is ICommandSource parent)
+                if (InheritanceContextProperty.GetValue(sender) is ICommandSource parent)
                 {
                     if (parent.Command is IRaiseCanExecuteChanged command)
                     {

@@ -6,7 +6,7 @@ using System.Windows.Interactivity;
 
 namespace CommandParam
 {
-    public class CanExecuteUpdateBehavior : Behavior<DependencyObject>
+    public class CanExecuteRequeryBehavior : Behavior<DependencyObject>
     {
         protected override void OnAttached()
         {
@@ -35,7 +35,7 @@ namespace CommandParam
             object commandParameter = (sender as ICommandSource).CommandParameter;
 
             if ((commandParameter != null) &&
-                (!commandParameter.GetType().IsSubclassOfRawGeneric(typeof(CommandParameterBase<>))) &&
+                (!commandParameter.GetType().IsSubclassOfGeneric(typeof(CommandParameterBase<>))) &&
                 ((sender as ICommandSource).Command is IRaiseCanExecuteChanged command))
             {
                 command.RaiseCanExecuteChanged();
