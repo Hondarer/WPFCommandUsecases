@@ -10,6 +10,9 @@
 
     <Window.Resources>
 
+        <local:Command1 x:Key="MalfunctionCommand1" />
+        <local:Command2 x:Key="MalfunctionCommand2" />
+
         <local:Command1 x:Key="Command1" />
         <local:Command2 x:Key="Command2" />
         <local:Command3 x:Key="Command3" />
@@ -34,12 +37,26 @@
 
             <TextBlock Text="{Binding Int1}" FontSize="24" />
 
+            <!-- 一見問題なさそうだが、ボタンの活性制御が不正な例 -->
+            <Button Content="malfunction Command1" Command="{StaticResource MalfunctionCommand1}" CommandParameter="{Binding Int1}" />
+
+            <!-- 一見問題なさそうだが、ボタンの活性制御が不正な例(マルチバインディング) -->
+            <Button Content="malfunction Command2" Command="{StaticResource MalfunctionCommand2}" >
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource ValuesToArrayConverter}">
+                        <Binding Path="Int1" />
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+
+            <!-- CommandParameter の変化で CanExecure を再評価するビヘイビア -->
             <Button Content="Command1" Command="{StaticResource Command1}" CommandParameter="{Binding Int1}" >
                 <i:Interaction.Behaviors>
                     <local:CanExecuteUpdateBehavior />
                 </i:Interaction.Behaviors>
             </Button>
 
+            <!-- CommandParameter の変化で CanExecure を再評価するビヘイビア(マルチバインディング) -->
             <Button Content="Command2" Command="{StaticResource Command2}" >
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource ValuesToArrayConverter}">
@@ -51,7 +68,10 @@
                 </i:Interaction.Behaviors>
             </Button>
 
+            <!-- ビヘイビアをスタイルに定義した例 -->
             <Button Content="Command1-2" Command="{StaticResource Command1}" CommandParameter="{Binding Int1}" Style="{StaticResource CanExecuteUpdateButtonStyle}" />
+
+            <!-- ビヘイビアをスタイルに定義した例(マルチバインディング) -->
             <Button Content="Command2-2" Command="{StaticResource Command2}" Style="{StaticResource CanExecuteUpdateButtonStyle}">
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource ValuesToArrayConverter}">
@@ -60,24 +80,28 @@
                 </Button.CommandParameter>
             </Button>
 
+            <!-- 複雑なバインドが可能な CommandParameter -->
             <Button Content="Command3" Command="{StaticResource Command3}">
                 <Button.CommandParameter>
                     <local:Command3Parameter Int1="{Binding Int1}" />
                 </Button.CommandParameter>
             </Button>
 
+            <!-- 一般化 CommandParameter の利用 -->
             <Button Content="Command4" Command="{StaticResource Command4}">
                 <Button.CommandParameter>
                     <local:CommandParameter Value="{Binding Int1}" />
                 </Button.CommandParameter>
             </Button>
 
+            <!-- 一般化 CommandParameter の利用。ビヘイビアも定義されている場合は、ビヘイビア側は動作しない -->
             <Button Content="Command4-2" Command="{StaticResource Command4}" Style="{StaticResource CanExecuteUpdateButtonStyle}">
                 <Button.CommandParameter>
                     <local:CommandParameter Value="{Binding Int1}" />
                 </Button.CommandParameter>
             </Button>
 
+            <!-- 一般化 CommandParameter の利用(マルチバインディング) -->
             <Button Content="Command4-3" Command="{StaticResource Command4}">
                 <Button.CommandParameter>
                     <local:CommandParameter>

@@ -11,7 +11,7 @@
 
             Command3Parameter _parameter = parameter as Command3Parameter;
 
-            if (_parameter.Int1 > 5)
+            if (_parameter.Int1 >= 5)
             {
                 return true;
             }

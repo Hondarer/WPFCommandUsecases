@@ -9,7 +9,7 @@
                 return false;
             }
 
-            if (int1 > 5)
+            if (int1 >= 5)
             {
                 return true;
             }

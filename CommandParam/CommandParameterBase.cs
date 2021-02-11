@@ -8,6 +8,32 @@ namespace CommandParam
     {
         private static readonly PropertyInfo InheritanceContextProperty = typeof(DependencyObject).GetProperty("InheritanceContext", BindingFlags.NonPublic | BindingFlags.Instance);
 
+        public UIElement UIElement
+        {
+            get
+            {
+                if (InheritanceContextProperty.GetValue(this) is UIElement uiElement)
+                {
+                    return uiElement;
+                }
+
+                return null;
+            }
+        }
+
+        public object DataContext
+        {
+            get
+            {
+                if (UIElement is FrameworkElement frameworkElement)
+                {
+                    return frameworkElement.DataContext;
+                }
+
+                return null;
+            }
+        }
+
         protected static void RequerySuggest(DependencyObject obj, DependencyPropertyChangedEventArgs _)
         {
             if (obj is CommandParameterBase<T>)
